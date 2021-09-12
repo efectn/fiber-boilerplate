@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/efectn/fiber-boilerplate/internal/config"
-	"github.com/efectn/fiber-boilerplate/internal/routes"
 	"github.com/efectn/fiber-boilerplate/internal/utils"
 	"github.com/efectn/fiber-boilerplate/storage"
 	"github.com/gofiber/fiber/v2"
@@ -83,10 +82,11 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 
 	ws.app.Get("/monitor", monitor.New())
 
-	// Add specific routes
-	routes.RegisterAPIRoutes(ws.app)
-
 	return ws, nil
+}
+
+func (ws *WebServer) App() *fiber.App {
+	return ws.app
 }
 
 func (ws *WebServer) ListenWebServer() error {

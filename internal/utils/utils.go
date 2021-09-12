@@ -20,10 +20,10 @@ func IsEnabled(key bool) func(c *fiber.Ctx) bool {
 	return func(c *fiber.Ctx) bool { return enabled }
 }
 
-func ValidateStruct(article interface{}) []*errorResponse {
+func ValidateStruct(input interface{}) []*errorResponse {
 	var errors []*errorResponse
 	validate := validator.New()
-	err := validate.Struct(article)
+	err := validate.Struct(input)
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
 			var element errorResponse

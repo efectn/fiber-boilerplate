@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/efectn/fiber-boilerplate/internal"
 	"github.com/efectn/fiber-boilerplate/internal/config"
+	"github.com/efectn/fiber-boilerplate/internal/routes"
 )
 
-// TODO: Register routes in main.go and DRY fixes.
 func main() {
 	config, err := config.ParseConfig("example")
 	if err != nil {
@@ -17,6 +17,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// Register Routes
+	routes.RegisterAPIRoutes(ws.App())
 
 	// Run webserver
 	ws.ListenWebServer()
