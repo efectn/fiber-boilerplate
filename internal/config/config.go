@@ -35,6 +35,13 @@ type Config struct {
 	Recover struct {
 		Enabled bool
 	}
+	Filesystem struct {
+		Enabled bool
+		Browse  bool
+		MaxAge  int `toml:"max_age"`
+		Index   string
+		Root    string
+	}
 }
 
 func ParseConfig(file string) (*Config, error) {

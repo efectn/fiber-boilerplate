@@ -24,3 +24,10 @@ level = 2
 
 [recover]
 enabled = true
+
+[filesystem]
+enabled = true
+browse = true
+max_age = 3600
+index = "index.html"
+root = "./storage/public"

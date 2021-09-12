@@ -60,9 +60,10 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 	}))
 
 	ws.app.Use(filesystem.New(filesystem.Config{
-		Root:   http.Dir("./storage/public"),
-		Browse: true,
-		MaxAge: 3600,
+		Next:   utils.IsEnabled(config.Filesystem.Enabled),
+		Root:   http.Dir(config.Filesystem.Root),
+		Browse: config.Filesystem.Browse,
+		MaxAge: config.Filesystem.MaxAge,
 	}))
 
 	// Test Routes
