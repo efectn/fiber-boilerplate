@@ -67,7 +67,7 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 
 	// Test Routes
 	ws.app.Get("/ping", func(c *fiber.Ctx) error {
-		return c.SendString("Pong! 👋")
+		return c.Status(200).SendString("Pong! 👋")
 	})
 
 	ws.app.Get("/html", func(c *fiber.Ctx) error {
@@ -77,7 +77,7 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 		}
 
 		c.Set(fiber.HeaderContentType, fiber.MIMETextHTMLCharsetUTF8)
-		return c.SendString(string(example))
+		return c.Status(200).SendString(string(example))
 	})
 
 	ws.app.Get("/monitor", monitor.New())
