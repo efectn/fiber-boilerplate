@@ -14,6 +14,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/session"
 )
 
@@ -53,6 +54,10 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 	ws.app.Use(compress.New(compress.Config{
 		Next:  utils.IsEnabled(config.Compress.Enabled),
 		Level: config.Compress.Level,
+	}))
+
+	ws.app.Use(recover.New(recover.Config{
+		Next: utils.IsEnabled(config.Recover.Enabled),
 	}))
 
 	ws.app.Use(filesystem.New(filesystem.Config{

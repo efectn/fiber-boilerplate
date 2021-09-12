@@ -32,6 +32,9 @@ type Config struct {
 		Enabled bool
 		Level   compress.Level
 	}
+	Recover struct {
+		Enabled bool
+	}
 }
 
 func ParseConfig(file string) (*Config, error) {

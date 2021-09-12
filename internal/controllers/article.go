@@ -4,7 +4,7 @@ import (
 	"strconv"
 
 	"github.com/efectn/fiber-boilerplate/internal/models"
-	"github.com/go-playground/validator/v10"
+	"github.com/efectn/fiber-boilerplate/internal/utils"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -13,29 +13,7 @@ type articleRequest struct {
 	Content string `json:"content" form:"content" validate:"required"`
 }
 
-type errorResponse struct {
-	FailedField string
-	Tag         string
-	Value       string
-}
-
 var articles = make(map[int]models.Article)
-
-func validateStruct(article articleRequest) []*errorResponse {
-	var errors []*errorResponse
-	validate := validator.New()
-	err := validate.Struct(article)
-	if err != nil {
-		for _, err := range err.(validator.ValidationErrors) {
-			var element errorResponse
-			element.FailedField = err.StructNamespace()
-			element.Tag = err.Tag()
-			element.Value = err.Param()
-			errors = append(errors, &element)
-		}
-	}
-	return errors
-}
 
 func ListArticles(c *fiber.Ctx) error {
 	if len(articles) == 0 {
@@ -64,7 +42,7 @@ func CreateNewArticle(c *fiber.Ctx) error {
 		panic(err)
 	}
 
-	errors := validateStruct(*req)
+	errors := utils.ValidateStruct(*req)
 	if errors != nil {
 		return c.Status(403).JSON(errors)
 
@@ -90,7 +68,7 @@ func UpdateArticle(c *fiber.Ctx) error {
 		panic(err)
 	}
 
-	errors := validateStruct(*req)
+	errors := utils.ValidateStruct(*req)
 	if errors != nil {
 		return c.Status(403).JSON(errors)
 

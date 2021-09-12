@@ -21,3 +21,6 @@ expiration_hours = 24
 [compress]
 enabled = true
 level = 2
+
+[recover]
+enabled = true
