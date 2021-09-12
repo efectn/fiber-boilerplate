@@ -1,0 +1,17 @@
+version: "3.8"
+
+networks:
+  app:
+    driver: bridge
+
+services:
+  example:
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+    volumes:
+      - .:/usr/work
+    networks:
+      - app
+    ports:
+      - 3000:3000
