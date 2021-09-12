@@ -1,0 +1,23 @@
+[webserver]
+header = "Fiber"
+app_name = "Fiber"
+port = ":3000"
+
+[logger]
+enabled = true
+timezone = "Local"
+timeformat = "02/01/2006 15:36"
+format = "${cyan}[FIBER]${reset} ${time} |${red}${status}${reset}|\t ${latency} |\t\t ${ip} | ${blue}${method}${reset} ${path}\n"
+
+[limiter]
+enabled = false
+max = 20
+expiration_seconds = 60
+
+[session]
+enabled = true
+expiration_hours = 24
+
+[compress]
+enabled = true
+level = 2
