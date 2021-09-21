@@ -35,6 +35,9 @@ type Config struct {
 	Recover struct {
 		Enabled bool
 	}
+	Monitor struct {
+		Enabled bool
+	}
 	Filesystem struct {
 		Enabled bool
 		Browse  bool

@@ -81,7 +81,9 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 		return c.Status(200).SendString(string(example))
 	})
 
-	ws.app.Get("/monitor", monitor.New())
+	ws.app.Get("/monitor", monitor.New(monitor.Config{
+		Next: utils.IsEnabled(config.Monitor.Enabled),
+	}))
 
 	return ws, nil
 }

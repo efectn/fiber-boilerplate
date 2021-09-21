@@ -25,6 +25,9 @@ level = 2
 [recover]
 enabled = true
 
+[monitor]
+enabled = true
+
 [filesystem]
 enabled = true
 browse = true
