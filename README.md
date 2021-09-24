@@ -37,3 +37,16 @@ Simple and scalable boilerplate for Fiber. Structure inspired by [project-layout
     ├── private.go
     └── public
 ```
+
+## Usage:
+You can run that commands to run project:
+
+```go mod download```
+
+```go run cmd/example/main.go``` or ```air -c .air.toml``` if you want to use air
+
+### Docker:
+```
+docker-compose build
+docker-compose up
+```
