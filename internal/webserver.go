@@ -18,48 +18,48 @@ import (
 )
 
 type WebServer struct {
-	app    *fiber.App
-	store  *session.Store
-	config *config.Config
+	App    *fiber.App
+	Store  *session.Store
+	Config *config.Config
 }
 
 func SetupWebServer(config *config.Config) (*WebServer, error) {
 	// Setup Webserver
 	ws := &WebServer{
-		app: fiber.New(fiber.Config{
+		App: fiber.New(fiber.Config{
 			ServerHeader: config.Webserver.Header,
 			AppName:      config.Webserver.AppName,
 		}),
-		store: session.New(session.Config{
+		Store: session.New(session.Config{
 			Expiration: time.Duration(config.Session.ExpHrs) * time.Hour,
 		}),
-		config: config,
+		Config: config,
 	}
 
 	// Add Extra Middlewares
-	ws.app.Use(logger.New(logger.Config{
+	ws.App.Use(logger.New(logger.Config{
 		Next:       utils.IsEnabled(config.Logger.Enabled),
 		TimeFormat: config.Logger.Timeformat,
 		TimeZone:   config.Logger.Timezone,
 		Format:     config.Logger.Format,
 	}))
 
-	ws.app.Use(limiter.New(limiter.Config{
+	ws.App.Use(limiter.New(limiter.Config{
 		Next:       utils.IsEnabled(config.Limiter.Enabled),
 		Max:        config.Limiter.Max,
 		Expiration: time.Duration(config.Session.ExpHrs) * time.Hour,
 	}))
 
-	ws.app.Use(compress.New(compress.Config{
+	ws.App.Use(compress.New(compress.Config{
 		Next:  utils.IsEnabled(config.Compress.Enabled),
 		Level: config.Compress.Level,
 	}))
 
-	ws.app.Use(recover.New(recover.Config{
+	ws.App.Use(recover.New(recover.Config{
 		Next: utils.IsEnabled(config.Recover.Enabled),
 	}))
 
-	ws.app.Use(filesystem.New(filesystem.Config{
+	ws.App.Use(filesystem.New(filesystem.Config{
 		Next:   utils.IsEnabled(config.Filesystem.Enabled),
 		Root:   http.Dir(config.Filesystem.Root),
 		Browse: config.Filesystem.Browse,
@@ -67,11 +67,11 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 	}))
 
 	// Test Routes
-	ws.app.Get("/ping", func(c *fiber.Ctx) error {
+	ws.App.Get("/ping", func(c *fiber.Ctx) error {
 		return c.Status(200).SendString("Pong! 👋")
 	})
 
-	ws.app.Get("/html", func(c *fiber.Ctx) error {
+	ws.App.Get("/html", func(c *fiber.Ctx) error {
 		example, err := storage.Private.ReadFile("private/example.html")
 		if err != nil {
 			panic(err)
@@ -81,19 +81,15 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 		return c.Status(200).SendString(string(example))
 	})
 
-	ws.app.Get("/monitor", monitor.New(monitor.Config{
+	ws.App.Get("/monitor", monitor.New(monitor.Config{
 		Next: utils.IsEnabled(config.Monitor.Enabled),
 	}))
 
 	return ws, nil
 }
 
-func (ws *WebServer) App() *fiber.App {
-	return ws.app
-}
-
 func (ws *WebServer) ListenWebServer() error {
-	err := ws.app.Listen(ws.config.Webserver.Port)
+	err := ws.App.Listen(ws.Config.Webserver.Port)
 	if err != nil {
 		return err
 	}

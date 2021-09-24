@@ -19,7 +19,7 @@ func main() {
 	}
 
 	// Register Routes
-	routes.RegisterAPIRoutes(ws.App())
+	routes.RegisterAPIRoutes(ws.App)
 
 	// Run webserver
 	ws.ListenWebServer()
