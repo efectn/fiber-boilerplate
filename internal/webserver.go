@@ -29,6 +29,7 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 		App: fiber.New(fiber.Config{
 			ServerHeader: config.Webserver.Header,
 			AppName:      config.Webserver.AppName,
+			Prefork:      config.Webserver.Prefork,
 		}),
 		Store: session.New(session.Config{
 			Expiration: time.Duration(config.Session.ExpHrs) * time.Hour,

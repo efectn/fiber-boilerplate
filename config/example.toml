@@ -2,6 +2,7 @@
 header = "Fiber"
 app_name = "Fiber"
 port = ":3000"
+prefork = false
 
 [logger]
 enabled = true

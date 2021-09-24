@@ -12,6 +12,7 @@ type Config struct {
 		Header  string
 		AppName string `toml:"app_name"`
 		Port    string
+		Prefork bool
 	}
 	Logger struct {
 		Enabled    bool
