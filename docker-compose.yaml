@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: build/Dockerfile
     volumes:
-      - .:/usr/work
+      - .:/app
     networks:
       - app
     ports:
