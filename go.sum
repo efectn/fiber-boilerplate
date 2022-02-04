@@ -15,8 +15,8 @@ github.com/go-playground/universal-translator v0.18.0 h1:82dyy6p4OuJq4/CByFNOn/j
 github.com/go-playground/universal-translator v0.18.0/go.mod h1:UvRDBj+xPUEGrFYl+lu/H90nyDXpg0fqeB/AQUGNTVA=
 github.com/go-playground/validator/v10 v10.10.0 h1:I7mrTYv78z8k8VXa/qJlOlEXn/nBh+BF8dHX5nt/dr0=
 github.com/go-playground/validator/v10 v10.10.0/go.mod h1:74x4gJWsvQexRdW8Pn3dXSGrTK4nAUsbPlLADvpJkos=
-github.com/gofiber/fiber/v2 v2.25.0 h1:kv8dmG/sAFDFpTueCMEn4X0JS5d72pEFTKLZ3miOREw=
-github.com/gofiber/fiber/v2 v2.25.0/go.mod h1:7efVWcBOZi1PyMWznnbitjnARPA7nYZxmQXJVod0bo0=
+github.com/gofiber/fiber/v2 v2.26.0 h1:Awnfqp3fqbZzV3wZWMRJ6Xo2U8X0Ls68M7tXjx52NcM=
+github.com/gofiber/fiber/v2 v2.26.0/go.mod h1:7efVWcBOZi1PyMWznnbitjnARPA7nYZxmQXJVod0bo0=
 github.com/golang/snappy v0.0.3/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
 github.com/klauspost/compress v1.13.4/go.mod h1:8dP1Hq4DHOhN9w426knH3Rhby4rFm6D8eO+e+Dq5Gzg=
 github.com/klauspost/compress v1.13.6 h1:P76CopJELS0TiO2mebmnzgWaajssP/EszplttgQxcgc=

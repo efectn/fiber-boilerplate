@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/BurntSushi/toml v1.0.0
 	github.com/go-playground/validator/v10 v10.10.0
-	github.com/gofiber/fiber/v2 v2.25.0
+	github.com/gofiber/fiber/v2 v2.26.0
 )
 
 require (
