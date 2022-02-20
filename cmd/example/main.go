@@ -6,9 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/efectn/fiber-boilerplate/internal"
-	"github.com/efectn/fiber-boilerplate/internal/config"
-	"github.com/efectn/fiber-boilerplate/internal/routes"
+	"github.com/efectn/fiber-boilerplate/pkg/routes"
+	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
+	"github.com/efectn/fiber-boilerplate/pkg/webserver"
 )
 
 func init() {
@@ -28,7 +28,7 @@ func main() {
 	}
 
 	// Setup webserver
-	ws, err := internal.SetupWebServer(config)
+	ws, err := webserver.SetupWebServer(config)
 	if err != nil {
 		panic(err)
 	}

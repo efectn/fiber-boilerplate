@@ -1,10 +1,10 @@
 package config
 
 import (
-	"io/ioutil"
+	"os"
 
-	"github.com/BurntSushi/toml"
 	"github.com/gofiber/fiber/v2/middleware/compress"
+	"github.com/pelletier/go-toml/v2"
 )
 
 type Config struct {
@@ -48,18 +48,22 @@ type Config struct {
 	}
 }
 
-func ParseConfig(file string) (*Config, error) {
-	var config *Config
+func ParseConfig(name string, debug ...bool) (*Config, error) {
+	var contents *Config
+	var file []byte
+	var err error
 
-	contents, err := ioutil.ReadFile("./config/" + file + ".toml")
+	if len(debug) > 0 {
+		file, err = os.ReadFile(name)
+	} else {
+		file, err = os.ReadFile("./config/" + name + ".toml")
+	}
+
 	if err != nil {
 		return &Config{}, err
 	}
 
-	toml.Decode(string(contents), &config)
-	if err != nil {
-		return &Config{}, err
-	}
+	err = toml.Unmarshal(file, &contents)
 
-	return config, nil
+	return contents, err
 }

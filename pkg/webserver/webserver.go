@@ -1,11 +1,12 @@
-package internal
+package webserver
 
 import (
 	"net/http"
 	"time"
 
-	"github.com/efectn/fiber-boilerplate/internal/config"
-	"github.com/efectn/fiber-boilerplate/internal/utils"
+	"github.com/efectn/fiber-boilerplate/pkg/utils"
+	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
+	"github.com/efectn/fiber-boilerplate/pkg/utils/errors"
 	"github.com/efectn/fiber-boilerplate/storage"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -30,6 +31,25 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 			ServerHeader: config.Webserver.Header,
 			AppName:      config.Webserver.AppName,
 			Prefork:      config.Webserver.Prefork,
+			ErrorHandler: func(c *fiber.Ctx, err error) error {
+				code := fiber.StatusInternalServerError
+				var messages interface{}
+
+				if e, ok := err.(*errors.Error); ok {
+					code = e.Code
+					messages = e.Message
+				}
+
+				if e, ok := err.(*fiber.Error); ok {
+					code = e.Code
+					messages = e.Message
+				}
+
+				return c.Status(code).JSON(fiber.Map{
+					"status":   false,
+					"messages": messages,
+				})
+			},
 		}),
 		Store: session.New(session.Config{
 			Expiration: time.Duration(config.Session.ExpHrs) * time.Hour,

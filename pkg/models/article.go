@@ -1,9 +1,7 @@
 package models
 
 type Article struct {
+	ID      int    `json:"id"`
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
-
-var Articles map[int]Article
-var IDs int
