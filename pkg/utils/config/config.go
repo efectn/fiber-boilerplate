@@ -2,23 +2,25 @@ package config
 
 import (
 	"os"
+	"strings"
 
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/pelletier/go-toml/v2"
+	"github.com/rs/zerolog"
 )
 
 type Config struct {
 	Webserver struct {
-		Header  string
-		AppName string `toml:"app_name"`
-		Port    string
-		Prefork bool
+		Header     string
+		AppName    string `toml:"app_name"`
+		Port       string
+		Prefork    bool
+		Production bool
 	}
 	Logger struct {
-		Enabled    bool
-		Timezone   string
-		Timeformat string
-		Format     string
+		TimeFormat string        `toml:"time-format"`
+		Level      zerolog.Level `toml:"level"`
+		Prettier   bool          `toml:"prettier"`
 	}
 	Limiter struct {
 		Enabled bool
@@ -66,4 +68,12 @@ func ParseConfig(name string, debug ...bool) (*Config, error) {
 	err = toml.Unmarshal(file, &contents)
 
 	return contents, err
+}
+
+// ParseAddr From https://github.com/gofiber/fiber/blob/master/helpers.go#L305.
+func ParseAddr(raw string) (host, port string) {
+	if i := strings.LastIndex(raw, ":"); i != -1 {
+		return raw[:i], raw[i+1:]
+	}
+	return raw, ""
 }

@@ -2,6 +2,9 @@ package webserver
 
 import (
 	"net/http"
+	"os"
+	"runtime"
+	"strings"
 	"time"
 
 	"github.com/efectn/fiber-boilerplate/pkg/utils"
@@ -12,16 +15,19 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/session"
+	futils "github.com/gofiber/fiber/v2/utils"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 type WebServer struct {
 	App    *fiber.App
 	Store  *session.Store
 	Config *config.Config
+	Logger zerolog.Logger
 }
 
 func SetupWebServer(config *config.Config) (*WebServer, error) {
@@ -50,21 +56,16 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 					"messages": messages,
 				})
 			},
+			DisableStartupMessage: true,
 		}),
 		Store: session.New(session.Config{
 			Expiration: time.Duration(config.Session.ExpHrs) * time.Hour,
 		}),
 		Config: config,
+		Logger: zerolog.Logger{},
 	}
 
 	// Add Extra Middlewares
-	ws.App.Use(logger.New(logger.Config{
-		Next:       utils.IsEnabled(config.Logger.Enabled),
-		TimeFormat: config.Logger.Timeformat,
-		TimeZone:   config.Logger.Timezone,
-		Format:     config.Logger.Format,
-	}))
-
 	ws.App.Use(limiter.New(limiter.Config{
 		Next:       utils.IsEnabled(config.Limiter.Enabled),
 		Max:        config.Limiter.Max,
@@ -109,11 +110,74 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 	return ws, nil
 }
 
+func (ws *WebServer) SetupLogger() error {
+	zerolog.TimeFieldFormat = ws.Config.Logger.TimeFormat
+
+	if ws.Config.Logger.Prettier {
+		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stdout})
+	}
+
+	zerolog.SetGlobalLevel(ws.Config.Logger.Level)
+
+	ws.Logger = log.Hook(PreforkHook{})
+
+	return nil
+}
+
 func (ws *WebServer) ListenWebServer() error {
-	err := ws.App.Listen(ws.Config.Webserver.Port)
+	// Custom Startup Messages
+	host, port := config.ParseAddr(ws.Config.Webserver.Port)
+	if host == "" {
+		if ws.App.Config().Network == "tcp6" {
+			host = "[::1]"
+		} else {
+			host = "0.0.0.0"
+		}
+	}
+
+	// ASCII Art
+	ascii, err := os.ReadFile("./storage/ascii_art.txt")
 	if err != nil {
 		return err
 	}
 
+	for _, line := range strings.Split(futils.UnsafeString(ascii), "\n") {
+		ws.Logger.Info().Msg(line)
+	}
+
+	// Information message
+	ws.Logger.Info().Msg(ws.App.Config().AppName + " is running at the moment!")
+
+	// Debug informations
+	if !ws.Config.Webserver.Production {
+		prefork := "Enabled"
+		procs := runtime.GOMAXPROCS(0)
+		if !ws.Config.Webserver.Prefork {
+			procs = 1
+			prefork = "Disabled"
+		}
+
+		ws.Logger.Debug().Msgf("Version: %s", "-")
+		ws.Logger.Debug().Msgf("Host: %s", host)
+		ws.Logger.Debug().Msgf("Port: %s", port)
+		ws.Logger.Debug().Msgf("Prefork: %s", prefork)
+		ws.Logger.Debug().Msgf("Handlers: %d", ws.App.HandlersCount())
+		ws.Logger.Debug().Msgf("Processes: %d", procs)
+		ws.Logger.Debug().Msgf("PID: %d", os.Getpid())
+	}
+
+	if err = ws.App.Listen(ws.Config.Webserver.Port); err != nil {
+		return err
+	}
+
 	return nil
+}
+
+// Prefork hook for zerolog
+type PreforkHook struct{}
+
+func (h PreforkHook) Run(e *zerolog.Event, level zerolog.Level, msg string) {
+	if fiber.IsChild() {
+		e.Discard()
+	}
 }

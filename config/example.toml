@@ -2,13 +2,13 @@
 header = "Fiber"
 app_name = "Fiber"
 port = ":8080"
-prefork = false
+prefork = true
+production = false
 
 [logger]
-enabled = false
-timezone = "Local"
-timeformat = "02/01/2006 15:36"
-format = "${cyan}[FIBER]${reset} ${time} |${red}${status}${reset}|\t ${latency} |\t\t ${ip} | ${blue}${method}${reset} ${path}\n"
+time-format = "" # https://pkg.go.dev/time#pkg-constants, https://github.com/rs/zerolog/blob/master/api.go#L10 
+level = 0 # panic -> 5, fatal -> 4, error -> 3, warn -> 2, info -> 1, debug -> 0, trace -> -1
+prettier = true
 
 [limiter]
 enabled = false
