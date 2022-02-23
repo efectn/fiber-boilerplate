@@ -6,6 +6,7 @@ require (
 	github.com/go-playground/validator/v10 v10.10.0
 	github.com/gofiber/fiber/v2 v2.27.0
 	github.com/pelletier/go-toml/v2 v2.0.0-beta.6
+	github.com/rs/zerolog v1.26.1
 )
 
 require (
@@ -14,7 +15,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/klauspost/compress v1.14.3 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
-	github.com/rs/zerolog v1.26.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.33.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect

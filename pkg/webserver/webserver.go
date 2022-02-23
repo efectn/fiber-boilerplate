@@ -3,8 +3,10 @@ package webserver
 import (
 	"net/http"
 	"os"
+	"os/signal"
 	"runtime"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/efectn/fiber-boilerplate/pkg/utils"
@@ -171,6 +173,23 @@ func (ws *WebServer) ListenWebServer() error {
 	}
 
 	return nil
+}
+
+func (ws *WebServer) ShutdownApp() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	<-c
+
+	ws.Logger.Info().Msg("Shutting down the app...")
+	if err := ws.App.Shutdown(); err != nil {
+		ws.Logger.Panic().Err(err).Msg("")
+	}
+
+	ws.Logger.Info().Msg("Running cleanup tasks...")
+	ws.Logger.Info().Msgf("%s was successful shutdown.", ws.Config.Webserver.AppName)
+	ws.Logger.Info().Msg("\u001b[96msee you again👋\u001b[0m")
+
+	os.Exit(1)
 }
 
 // Prefork hook for zerolog
