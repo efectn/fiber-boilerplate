@@ -18,27 +18,26 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
+	"github.com/gofiber/fiber/v2/middleware/pprof"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/fiber/v2/middleware/session"
 	futils "github.com/gofiber/fiber/v2/utils"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
 
 type WebServer struct {
-	App    *fiber.App
-	Store  *session.Store
+	Fiber  *fiber.App
 	Config *config.Config
 	Logger zerolog.Logger
 }
 
-func SetupWebServer(config *config.Config) (*WebServer, error) {
+func SetupApp(config *config.Config) (*WebServer, error) {
 	// Setup Webserver
 	ws := &WebServer{
-		App: fiber.New(fiber.Config{
-			ServerHeader: config.Webserver.Header,
-			AppName:      config.Webserver.AppName,
-			Prefork:      config.Webserver.Prefork,
+		Fiber: fiber.New(fiber.Config{
+			ServerHeader: config.App.Name,
+			AppName:      config.App.Name,
+			Prefork:      config.App.Prefork,
 			ErrorHandler: func(c *fiber.Ctx, err error) error {
 				code := fiber.StatusInternalServerError
 				var messages interface{}
@@ -59,43 +58,46 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 				})
 			},
 			DisableStartupMessage: true,
-		}),
-		Store: session.New(session.Config{
-			Expiration: time.Duration(config.Session.ExpHrs) * time.Hour,
+			IdleTimeout:           config.App.IdleTimeout * time.Second,
+			EnablePrintRoutes:     config.App.PrintRoutes,
 		}),
 		Config: config,
 		Logger: zerolog.Logger{},
 	}
 
 	// Add Extra Middlewares
-	ws.App.Use(limiter.New(limiter.Config{
-		Next:       utils.IsEnabled(config.Limiter.Enabled),
-		Max:        config.Limiter.Max,
-		Expiration: time.Duration(config.Session.ExpHrs) * time.Hour,
+	ws.Fiber.Use(limiter.New(limiter.Config{
+		Next:       utils.IsEnabled(config.Middleware.Limiter.Enable),
+		Max:        config.Middleware.Limiter.Max,
+		Expiration: config.Middleware.Limiter.ExpSecs * time.Second,
 	}))
 
-	ws.App.Use(compress.New(compress.Config{
-		Next:  utils.IsEnabled(config.Compress.Enabled),
-		Level: config.Compress.Level,
+	ws.Fiber.Use(compress.New(compress.Config{
+		Next:  utils.IsEnabled(config.Middleware.Compress.Enable),
+		Level: config.Middleware.Compress.Level,
 	}))
 
-	ws.App.Use(recover.New(recover.Config{
-		Next: utils.IsEnabled(config.Recover.Enabled),
+	ws.Fiber.Use(recover.New(recover.Config{
+		Next: utils.IsEnabled(config.Middleware.Recover.Enable),
 	}))
 
-	ws.App.Use(filesystem.New(filesystem.Config{
-		Next:   utils.IsEnabled(config.Filesystem.Enabled),
-		Root:   http.Dir(config.Filesystem.Root),
-		Browse: config.Filesystem.Browse,
-		MaxAge: config.Filesystem.MaxAge,
+	ws.Fiber.Use(pprof.New(pprof.Config{
+		Next: utils.IsEnabled(config.Middleware.Pprof.Enable),
+	}))
+
+	ws.Fiber.Use(filesystem.New(filesystem.Config{
+		Next:   utils.IsEnabled(config.Middleware.Filesystem.Enable),
+		Root:   http.Dir(config.Middleware.Filesystem.Root),
+		Browse: config.Middleware.Filesystem.Browse,
+		MaxAge: config.Middleware.Filesystem.MaxAge,
 	}))
 
 	// Test Routes
-	ws.App.Get("/ping", func(c *fiber.Ctx) error {
+	ws.Fiber.Get("/ping", func(c *fiber.Ctx) error {
 		return c.Status(200).SendString("Pong! 👋")
 	})
 
-	ws.App.Get("/html", func(c *fiber.Ctx) error {
+	ws.Fiber.Get("/html", func(c *fiber.Ctx) error {
 		example, err := storage.Private.ReadFile("private/example.html")
 		if err != nil {
 			panic(err)
@@ -105,8 +107,8 @@ func SetupWebServer(config *config.Config) (*WebServer, error) {
 		return c.Status(200).SendString(string(example))
 	})
 
-	ws.App.Get("/monitor", monitor.New(monitor.Config{
-		Next: utils.IsEnabled(config.Monitor.Enabled),
+	ws.Fiber.Get(config.Middleware.Monitor.Path, monitor.New(monitor.Config{
+		Next: utils.IsEnabled(config.Middleware.Monitor.Enable),
 	}))
 
 	return ws, nil
@@ -128,9 +130,9 @@ func (ws *WebServer) SetupLogger() error {
 
 func (ws *WebServer) ListenWebServer() error {
 	// Custom Startup Messages
-	host, port := config.ParseAddr(ws.Config.Webserver.Port)
+	host, port := config.ParseAddr(ws.Config.App.Port)
 	if host == "" {
-		if ws.App.Config().Network == "tcp6" {
+		if ws.Fiber.Config().Network == "tcp6" {
 			host = "[::1]"
 		} else {
 			host = "0.0.0.0"
@@ -148,13 +150,13 @@ func (ws *WebServer) ListenWebServer() error {
 	}
 
 	// Information message
-	ws.Logger.Info().Msg(ws.App.Config().AppName + " is running at the moment!")
+	ws.Logger.Info().Msg(ws.Fiber.Config().AppName + " is running at the moment!")
 
 	// Debug informations
-	if !ws.Config.Webserver.Production {
+	if !ws.Config.App.Production {
 		prefork := "Enabled"
 		procs := runtime.GOMAXPROCS(0)
-		if !ws.Config.Webserver.Prefork {
+		if !ws.Config.App.Prefork {
 			procs = 1
 			prefork = "Disabled"
 		}
@@ -163,12 +165,21 @@ func (ws *WebServer) ListenWebServer() error {
 		ws.Logger.Debug().Msgf("Host: %s", host)
 		ws.Logger.Debug().Msgf("Port: %s", port)
 		ws.Logger.Debug().Msgf("Prefork: %s", prefork)
-		ws.Logger.Debug().Msgf("Handlers: %d", ws.App.HandlersCount())
+		ws.Logger.Debug().Msgf("Handlers: %d", ws.Fiber.HandlersCount())
 		ws.Logger.Debug().Msgf("Processes: %d", procs)
 		ws.Logger.Debug().Msgf("PID: %d", os.Getpid())
 	}
 
-	if err = ws.App.Listen(ws.Config.Webserver.Port); err != nil {
+	// Listen the app (with TLS Support)
+	if ws.Config.App.TLS.Enable {
+		ws.Logger.Debug().Msg("TLS support has enabled.")
+
+		if err := ws.Fiber.ListenTLS(ws.Config.App.Port, ws.Config.App.TLS.CertFile, ws.Config.App.TLS.KeyFile); err != nil {
+			return err
+		}
+	}
+
+	if err := ws.Fiber.Listen(ws.Config.App.Port); err != nil {
 		return err
 	}
 
@@ -181,12 +192,12 @@ func (ws *WebServer) ShutdownApp() {
 	<-c
 
 	ws.Logger.Info().Msg("Shutting down the app...")
-	if err := ws.App.Shutdown(); err != nil {
+	if err := ws.Fiber.Shutdown(); err != nil {
 		ws.Logger.Panic().Err(err).Msg("")
 	}
 
 	ws.Logger.Info().Msg("Running cleanup tasks...")
-	ws.Logger.Info().Msgf("%s was successful shutdown.", ws.Config.Webserver.AppName)
+	ws.Logger.Info().Msgf("%s was successful shutdown.", ws.Config.App.Name)
 	ws.Logger.Info().Msg("\u001b[96msee you again👋\u001b[0m")
 
 	os.Exit(1)

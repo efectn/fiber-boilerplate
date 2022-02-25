@@ -17,7 +17,7 @@ func main() {
 	}
 
 	// Setup webserver
-	ws, err := webserver.SetupWebServer(config)
+	ws, err := webserver.SetupApp(config)
 	if err != nil && !fiber.IsChild() {
 		log.Panic().Err(err).Msg("")
 	}
@@ -26,7 +26,7 @@ func main() {
 	ws.SetupLogger()
 
 	// Register Routes
-	routes.RegisterAPIRoutes(ws.App)
+	routes.RegisterAPIRoutes(ws.Fiber)
 
 	// Run webserver
 	go func() {

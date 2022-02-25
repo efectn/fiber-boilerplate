@@ -16,12 +16,11 @@ type errorResponse struct {
 }
 
 func IsEnabled(key bool) func(c *fiber.Ctx) bool {
-	enabled := true
 	if key {
-		enabled = false
+		return nil
 	}
 
-	return func(c *fiber.Ctx) bool { return enabled }
+	return func(c *fiber.Ctx) bool { return true }
 }
 
 func ValidateStruct(input interface{}) []*errorResponse {

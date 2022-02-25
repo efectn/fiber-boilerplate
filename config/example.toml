@@ -1,36 +1,43 @@
-[webserver]
-header = "Fiber"
-app_name = "Fiber"
+# Configuration vars for cmd/app
+[app]
+name = "Fiber Boilerplate"
 port = ":8080"
+idle-timeout = 5 # As seconds
+print-routes = false
 prefork = true
 production = false
+
+[app.tls]
+enable = false
+cert-file = "./storage/selfsigned.crt"
+key-file = "./storage/selfsigned.key"
 
 [logger]
 time-format = "" # https://pkg.go.dev/time#pkg-constants, https://github.com/rs/zerolog/blob/master/api.go#L10 
 level = 0 # panic -> 5, fatal -> 4, error -> 3, warn -> 2, info -> 1, debug -> 0, trace -> -1
 prettier = true
 
-[limiter]
-enabled = false
+[middleware.compress]
+enable = true
+level = 1
+
+[middleware.recover]
+enable = true
+
+[middleware.monitor]
+enable = false
+path = "/monitor"
+
+[middleware.pprof]
+enable = true
+
+[middleware.limiter]
+enable = false
 max = 20
 expiration_seconds = 60
 
-[session]
-enabled = true
-expiration_hours = 24
-
-[compress]
-enabled = true
-level = 2
-
-[recover]
-enabled = true
-
-[monitor]
-enabled = true
-
-[filesystem]
-enabled = true
+[middleware.filesystem]
+enable = false
 browse = true
 max_age = 3600
 index = "index.html"
