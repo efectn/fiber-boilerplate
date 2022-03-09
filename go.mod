@@ -3,7 +3,7 @@ module github.com/efectn/fiber-boilerplate
 go 1.17
 
 require (
-	github.com/go-playground/validator/v10 v10.10.0
+	github.com/go-playground/validator/v10 v10.10.1
 	github.com/gofiber/fiber/v2 v2.29.0
 	github.com/pelletier/go-toml/v2 v2.0.0-beta.6
 	github.com/rs/zerolog v1.26.1
