@@ -1,40 +1,24 @@
 package main
 
 import (
-	"github.com/rs/zerolog/log"
+	"go.uber.org/fx"
 
-	"github.com/efectn/fiber-boilerplate/pkg/routes"
-	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
-	"github.com/efectn/fiber-boilerplate/pkg/webserver"
-	"github.com/gofiber/fiber/v2"
+	"github.com/efectn/fiber-boilerplate/pkg/middlewares"
+	"github.com/efectn/fiber-boilerplate/pkg/router"
+	"github.com/efectn/fiber-boilerplate/pkg/server"
+	fxzerolog "github.com/efectn/fx-zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
-	// Parse config
-	config, err := config.ParseConfig("example")
-	if err != nil && !fiber.IsChild() {
-		log.Panic().Err(err).Msg("")
-	}
+	fx.New(
+		fx.Provide(server.NewLogger),
+		fx.Provide(server.NewConfig),
+		fx.Provide(server.NewFiber),
+		fx.Provide(middlewares.NewMiddleware),
+		fx.Provide(router.NewRouter),
 
-	// Setup webserver
-	ws, err := webserver.SetupApp(config)
-	if err != nil && !fiber.IsChild() {
-		log.Panic().Err(err).Msg("")
-	}
-
-	// Setup Logger
-	ws.SetupLogger()
-
-	// Register Routes
-	routes.RegisterAPIRoutes(ws.Fiber)
-
-	// Run webserver
-	go func() {
-		if err := ws.ListenWebServer(); err != nil {
-			ws.Logger.Panic().Err(err).Msg("")
-		}
-	}()
-
-	// Gracefully shutdown
-	ws.ShutdownApp()
+		fx.Invoke(server.Register),
+		fx.WithLogger(fxzerolog.Init(log.Logger)),
+	).Run()
 }

@@ -1,4 +1,4 @@
-package routes
+package router
 
 import (
 	"github.com/efectn/fiber-boilerplate/pkg/controllers"
@@ -8,9 +8,19 @@ import (
 // Define controllers
 var articleController = new(controllers.ArticleController)
 
+type Router struct {
+	App fiber.Router
+}
+
+func NewRouter(fiber *fiber.App) *Router {
+	return &Router{
+		App: fiber,
+	}
+}
+
 // Register routes
-func RegisterAPIRoutes(app fiber.Router) {
-	app.Route("/articles", func(router fiber.Router) {
+func (r *Router) Register() {
+	r.App.Route("/articles", func(router fiber.Router) {
 		router.Get("/", articleController.Index)
 		router.Get("/:id", articleController.Show)
 		router.Post("/", articleController.Store)

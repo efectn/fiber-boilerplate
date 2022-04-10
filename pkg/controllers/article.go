@@ -3,7 +3,8 @@ package controllers
 import (
 	"strconv"
 
-	"github.com/efectn/fiber-boilerplate/pkg/models"
+	"github.com/efectn/fiber-boilerplate/pkg/database"
+	"github.com/efectn/fiber-boilerplate/pkg/database/models"
 	"github.com/efectn/fiber-boilerplate/pkg/utils"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/errors"
 	"github.com/gofiber/fiber/v2"
@@ -16,14 +17,12 @@ type ArticleRequest struct {
 
 type ArticleController struct{}
 
-var articles = make([]*models.Article, 0)
-
 func (ArticleController) Index(c *fiber.Ctx) error {
-	if len(articles) == 0 {
+	if len(database.Articles) == 0 {
 		return c.SendStatus(404)
 	}
 
-	return c.Status(200).JSON(articles)
+	return c.Status(200).JSON(database.Articles)
 }
 
 func (ArticleController) Show(c *fiber.Ctx) error {
@@ -32,7 +31,7 @@ func (ArticleController) Show(c *fiber.Ctx) error {
 		return err
 	}
 
-	for _, article := range articles {
+	for _, article := range database.Articles {
 		if article.ID == id {
 			return c.Status(fiber.StatusOK).JSON(article)
 		}
@@ -48,17 +47,17 @@ func (ArticleController) Store(c *fiber.Ctx) error {
 	}
 
 	id := 1
-	if len(articles) > 0 {
-		id = articles[len(articles)-1].ID + 1
+	if len(database.Articles) > 0 {
+		id = database.Articles[len(database.Articles)-1].ID + 1
 	}
 
-	articles = append(articles, &models.Article{
+	database.Articles = append(database.Articles, &models.Article{
 		ID:      id,
 		Title:   req.Title,
 		Content: req.Content,
 	})
 
-	return c.JSON(articles)
+	return c.JSON(database.Articles)
 }
 
 func (ArticleController) Update(c *fiber.Ctx) error {
@@ -72,7 +71,7 @@ func (ArticleController) Update(c *fiber.Ctx) error {
 		return errors.NewErrors(fiber.StatusForbidden, err)
 	}
 
-	for _, article := range articles {
+	for _, article := range database.Articles {
 		if article.ID == id {
 			article.Title = req.Title
 			article.Content = req.Content
@@ -91,13 +90,13 @@ func (ArticleController) Destroy(c *fiber.Ctx) error {
 	}
 
 	i := 0
-	for _, article := range articles {
+	for _, article := range database.Articles {
 		if article.ID == id {
 			ret := make([]*models.Article, 0)
-			ret = append(ret, articles[:i]...)
-			articles = append(ret, articles[i+1:]...)
+			ret = append(ret, database.Articles[:i]...)
+			database.Articles = append(ret, database.Articles[i+1:]...)
 
-			return c.Status(fiber.StatusOK).JSON(articles)
+			return c.Status(fiber.StatusOK).JSON(database.Articles)
 		}
 		i++
 	}
