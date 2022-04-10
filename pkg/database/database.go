@@ -5,7 +5,7 @@ import (
 
 	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
-	"github.com/rs/zerolog/log"
+	"github.com/rs/zerolog"
 
 	"database/sql"
 
@@ -17,6 +17,7 @@ import (
 
 type Database struct {
 	Ent *ent.Client
+	Log zerolog.Logger
 	Cfg *config.Config
 }
 
@@ -25,9 +26,10 @@ type Seeder interface {
 	Count() (int, error)
 }
 
-func NewDatabase(cfg *config.Config) *Database {
+func NewDatabase(cfg *config.Config, log zerolog.Logger) *Database {
 	db := &Database{
 		Cfg: cfg,
+		Log: log,
 	}
 
 	return db
@@ -36,7 +38,7 @@ func NewDatabase(cfg *config.Config) *Database {
 func (db *Database) ConnectDatabase() {
 	conn, err := sql.Open("pgx", db.Cfg.DB.Postgres.DSN)
 	if err != nil {
-		log.Error().Err(err).Msg("An unknown error occured when to connect the database!")
+		db.Log.Error().Err(err).Msg("An unknown error occured when to connect the database!")
 	}
 
 	drv := entsql.OpenDB(dialect.Postgres, conn)
@@ -45,13 +47,13 @@ func (db *Database) ConnectDatabase() {
 
 func (db *Database) ShutdownDatabase() {
 	if err := db.Ent.Close(); err != nil {
-		log.Error().Err(err).Msg("An unknown error occured when to shutdown the database!")
+		db.Log.Error().Err(err).Msg("An unknown error occured when to shutdown the database!")
 	}
 }
 
 func (db *Database) MigrateModels() {
 	if err := db.Ent.Schema.Create(context.Background(), schema.WithAtlas(true)); err != nil {
-		log.Error().Err(err).Msg("Failed creating schema resources!")
+		db.Log.Error().Err(err).Msg("Failed creating schema resources!")
 	}
 }
 
@@ -60,18 +62,18 @@ func (db *Database) SeedModels(seeder ...Seeder) {
 
 		count, err := v.Count()
 		if err != nil {
-			log.Panic().Err(err).Msg("")
+			db.Log.Panic().Err(err).Msg("")
 		}
 
 		if count == 0 {
 			err = v.Seed(db.Ent)
 			if err != nil {
-				log.Panic().Err(err).Msg("")
+				db.Log.Panic().Err(err).Msg("")
 			}
 
-			log.Debug().Msg("Table has seeded successfully.")
+			db.Log.Debug().Msg("Table has seeded successfully.")
 		} else {
-			log.Warn().Msg("Table has seeded already. Skipping!")
+			db.Log.Warn().Msg("Table has seeded already. Skipping!")
 		}
 	}
 }

@@ -14,7 +14,7 @@ import (
 	"github.com/efectn/fiber-boilerplate/pkg/utils/response"
 	"github.com/gofiber/fiber/v2"
 	futils "github.com/gofiber/fiber/v2/utils"
-	"github.com/rs/zerolog/log"
+	"github.com/rs/zerolog"
 	"go.uber.org/fx"
 )
 
@@ -36,7 +36,7 @@ func NewFiber(cfg *config.Config) *fiber.App {
 	return app
 }
 
-func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middlewares.Middleware, database *database.Database) {
+func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middlewares.Middleware, database *database.Database, log zerolog.Logger) {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {

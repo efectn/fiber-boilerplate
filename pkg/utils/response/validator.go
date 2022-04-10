@@ -24,7 +24,7 @@ func init() {
 	uni = ut.New(en.New())
 	trans, _ = uni.GetTranslator("en")
 
-	if err := ent.RegisterDefaultTranslations(validate, trans); err != nil {
+	if err := ent.RegisterDefaultTranslations(validate, trans); err != nil && !fiber.IsChild() {
 		log.Panic().Err(err).Msg("")
 	}
 }

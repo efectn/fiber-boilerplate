@@ -18,7 +18,8 @@ func NewLogger(cfg *config.Config) zerolog.Logger {
 
 	zerolog.SetGlobalLevel(cfg.Logger.Level)
 
-	log.Logger = log.Hook(PreforkHook{})
+	//Commented because of breaking logging in request when to use prefork.
+	//log.Logger = log.Hook(PreforkHook{})
 	return log.Hook(PreforkHook{})
 }
 
