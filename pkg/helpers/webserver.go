@@ -1,4 +1,4 @@
-package server
+package helpers
 
 import (
 	"context"
@@ -11,33 +11,12 @@ import (
 	"github.com/efectn/fiber-boilerplate/pkg/middlewares"
 	"github.com/efectn/fiber-boilerplate/pkg/router"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
-	"github.com/efectn/fiber-boilerplate/pkg/utils/errors"
-	"github.com/efectn/fiber-boilerplate/storage"
+	"github.com/efectn/fiber-boilerplate/pkg/utils/response"
 	"github.com/gofiber/fiber/v2"
 	futils "github.com/gofiber/fiber/v2/utils"
 	"github.com/rs/zerolog/log"
 	"go.uber.org/fx"
 )
-
-var errorHandler = func(c *fiber.Ctx, err error) error {
-	code := fiber.StatusInternalServerError
-	var messages interface{}
-
-	if e, ok := err.(*errors.Error); ok {
-		code = e.Code
-		messages = e.Message
-	}
-
-	if e, ok := err.(*fiber.Error); ok {
-		code = e.Code
-		messages = e.Message
-	}
-
-	return c.Status(code).JSON(fiber.Map{
-		"status":   false,
-		"messages": messages,
-	})
-}
 
 func NewFiber(cfg *config.Config) *fiber.App {
 	// Setup Webserver
@@ -45,31 +24,19 @@ func NewFiber(cfg *config.Config) *fiber.App {
 		ServerHeader:          cfg.App.Name,
 		AppName:               cfg.App.Name,
 		Prefork:               cfg.App.Prefork,
-		ErrorHandler:          errorHandler,
+		ErrorHandler:          response.ErrorHandler,
 		IdleTimeout:           cfg.App.IdleTimeout * time.Second,
 		EnablePrintRoutes:     cfg.App.PrintRoutes,
 		DisableStartupMessage: true,
 	})
 
-	// Test Routes
-	app.Get("/ping", func(c *fiber.Ctx) error {
-		return c.Status(200).SendString("Pong! 👋")
-	})
-
-	app.Get("/html", func(c *fiber.Ctx) error {
-		example, err := storage.Private.ReadFile("private/example.html")
-		if err != nil {
-			panic(err)
-		}
-
-		c.Set(fiber.HeaderContentType, fiber.MIMETextHTMLCharsetUTF8)
-		return c.Status(200).SendString(string(example))
-	})
+	// Pass production config to check it
+	response.IsProduction = cfg.App.Production
 
 	return app
 }
 
-func Register(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middlewares.Middleware, database *database.Database) {
+func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middlewares.Middleware, database *database.Database) {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {

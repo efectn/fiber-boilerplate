@@ -5,9 +5,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/pelletier/go-toml/v2"
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 )
 
 type app = struct {
@@ -95,6 +97,15 @@ func ParseConfig(name string, debug ...bool) (*Config, error) {
 	err = toml.Unmarshal(file, &contents)
 
 	return contents, err
+}
+
+func NewConfig() *Config {
+	config, err := ParseConfig("example")
+	if err != nil && !fiber.IsChild() {
+		log.Panic().Err(err).Msg("")
+	}
+
+	return config
 }
 
 // ParseAddr From https://github.com/gofiber/fiber/blob/master/helpers.go#L305.

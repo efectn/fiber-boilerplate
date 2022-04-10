@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/efectn/fiber-boilerplate/pkg/controllers"
+	"github.com/efectn/fiber-boilerplate/storage"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -21,6 +22,21 @@ func NewRouter(fiber *fiber.App, controller *controllers.Controller) *Router {
 func (r *Router) Register() {
 	// Define controllers
 	articleController := r.Controller.Article
+
+	// Test Routes
+	r.App.Get("/ping", func(c *fiber.Ctx) error {
+		return c.SendString("Pong! 👋")
+	})
+
+	r.App.Get("/html", func(c *fiber.Ctx) error {
+		example, err := storage.Private.ReadFile("private/example.html")
+		if err != nil {
+			panic(err)
+		}
+
+		c.Set(fiber.HeaderContentType, fiber.MIMETextHTMLCharsetUTF8)
+		return c.SendString(string(example))
+	})
 
 	// Define routes
 	r.App.Route("/articles", func(router fiber.Router) {
