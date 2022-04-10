@@ -80,5 +80,6 @@ CUSTOM="Air" docker-compose up # Use with Air
 - [PostgreSQL](https://www.postgresql.org)
 - [Docker](https://www.docker.com/)
 - [Fiber](https://github.com/gofiber/fiber)
+- [Ent](https://github.com/ent/ent)
 - [Fx](https://github.com/uber-go/fx)
 - [Zerolog](https://github.com/rs/zerolog)
