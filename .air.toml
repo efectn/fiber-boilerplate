@@ -3,8 +3,8 @@ tmp_dir = "tmp"
 
 [build]
   bin = "./tmp/main"
-  cmd = "CGO_ENABLED=0 go build -ldflags '-s -w' -o ./tmp/main cmd/example/main.go"
-  delay = 1000
+  cmd = "CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ./tmp/main ./cmd/example/main.go"
+  delay = 1500
   exclude_dir = ["assets", "tmp", "vendor"]
   exclude_file = []
   exclude_regex = []

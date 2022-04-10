@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/efectn/fiber-boilerplate/pkg/database"
 	"github.com/efectn/fiber-boilerplate/pkg/middlewares"
 	"github.com/efectn/fiber-boilerplate/pkg/router"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
@@ -68,7 +69,7 @@ func NewFiber(cfg *config.Config) *fiber.App {
 	return app
 }
 
-func Register(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middlewares.Middleware) {
+func Register(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middlewares.Middleware, database *database.Database) {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
@@ -119,7 +120,7 @@ func Register(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, rout
 
 				// Listen the app (with TLS Support)
 				if cfg.App.TLS.Enable {
-					log.Debug().Msg("TLS support has enabled.")
+					log.Debug().Msg("TLS support was enabled.")
 
 					if err := fiber.ListenTLS(cfg.App.Port, cfg.App.TLS.CertFile, cfg.App.TLS.KeyFile); err != nil {
 						log.Error().Err(err).Msg("An unknown error occured when to run server!")
@@ -132,6 +133,13 @@ func Register(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, rout
 					}
 				}()
 
+				database.ConnectDatabase()
+				log.Info().Msg("Connected the database succesfully!")
+
+				database.MigrateModels()
+				database.SeedModels()
+				log.Info().Msg("Models were migrated and seeded successfully!")
+
 				return nil
 			},
 			OnStop: func(ctx context.Context) error {
@@ -141,6 +149,8 @@ func Register(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, rout
 				}
 
 				log.Info().Msg("Running cleanup tasks...")
+				log.Info().Msg("1- Shutdown the database")
+				database.ShutdownDatabase()
 				log.Info().Msgf("%s was successful shutdown.", cfg.App.Name)
 				log.Info().Msg("\u001b[96msee you again👋\u001b[0m")
 

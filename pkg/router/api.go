@@ -5,21 +5,24 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// Define controllers
-var articleController = new(controllers.ArticleController)
-
 type Router struct {
-	App fiber.Router
+	App        fiber.Router
+	Controller *controllers.Controller
 }
 
-func NewRouter(fiber *fiber.App) *Router {
+func NewRouter(fiber *fiber.App, controller *controllers.Controller) *Router {
 	return &Router{
-		App: fiber,
+		App:        fiber,
+		Controller: controller,
 	}
 }
 
 // Register routes
 func (r *Router) Register() {
+	// Define controllers
+	articleController := r.Controller.Article
+
+	// Define routes
 	r.App.Route("/articles", func(router fiber.Router) {
 		router.Get("/", articleController.Index)
 		router.Get("/:id", articleController.Show)

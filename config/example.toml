@@ -12,6 +12,9 @@ enable = false
 cert-file = "./storage/selfsigned.crt"
 key-file = "./storage/selfsigned.key"
 
+[db.postgres]
+dsn = "postgresql://postgres:postgres@postgres:5432/boilerplate" # <driver>://<username>:<password>@<host>:<port>/<database>
+
 [logger]
 time-format = "" # https://pkg.go.dev/time#pkg-constants, https://github.com/rs/zerolog/blob/master/api.go#L10 
 level = 0 # panic -> 5, fatal -> 4, error -> 3, warn -> 2, info -> 1, debug -> 0, trace -> -1

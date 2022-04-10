@@ -50,6 +50,3 @@ You can run that commands to run project:
 docker-compose build
 docker-compose up
 ```
-
-## Note:
-- I didn't add any database connection to make this boilerplate general purpose. But if you want to use an ORM in your project, i recommend you to use [ent](https://github.com/ent/ent).

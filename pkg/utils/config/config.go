@@ -24,6 +24,12 @@ type app = struct {
 	}
 }
 
+type db = struct {
+	Postgres struct {
+		DSN string `toml:"dsn"`
+	}
+}
+
 type logger = struct {
 	TimeFormat string        `toml:"time-format"`
 	Level      zerolog.Level `toml:"level"`
@@ -66,6 +72,7 @@ type middleware = struct {
 
 type Config struct {
 	App        app
+	DB         db
 	Logger     logger
 	Middleware middleware
 }
