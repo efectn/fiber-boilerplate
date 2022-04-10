@@ -58,10 +58,7 @@ var ErrorHandler = func(c *fiber.Ctx, err error) error {
 		resp.Messages = Messages{err.Error()}
 	}
 
-	// TODO: Not working.
 	if !IsProduction {
-		//log.Logger = zerolog.New(os.Stderr).With().Timestamp().Logger()
-
 		log.Error().Err(err).Msg("From: Fiber's error handler")
 	}
 
