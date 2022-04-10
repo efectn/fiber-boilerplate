@@ -39,7 +39,6 @@ var ErrorHandler = func(c *fiber.Ctx, err error) error {
 	resp := Response{
 		Code: fiber.StatusInternalServerError,
 	}
-
 	// Handle errors
 	if e, ok := err.(validator.ValidationErrors); ok {
 		resp.Code = fiber.StatusForbidden
@@ -49,13 +48,6 @@ var ErrorHandler = func(c *fiber.Ctx, err error) error {
 		resp.Messages = Messages{e.Message}
 	} else if e, ok := err.(*Error); ok {
 		resp.Code = e.Code
-		// TODO: ???
-		/* "messages": [
-		  	 [
-		    	 	"ent: article not found"
-		  	 ]
-				 ]
-		*/
 		resp.Messages = Messages{e.Message}
 
 		// for ent and some errors
@@ -86,6 +78,18 @@ func NewErrors(code int, messages ...interface{}) *Error {
 	return e
 }
 
+// NewError creates singular new Error message
+func NewError(code int, messages ...interface{}) *Error {
+	e := &Error{
+		Code:    code,
+		Message: utils.StatusMessage(code),
+	}
+	if len(messages) > 0 {
+		e.Message = messages[0]
+	}
+	return e
+}
+
 // A fuction to return beautiful responses.
 func Resp(c *fiber.Ctx, resp Response) error {
 	// Set status
@@ -95,7 +99,6 @@ func Resp(c *fiber.Ctx, resp Response) error {
 	c.Status(resp.Code)
 
 	// Return JSON
-	// TODO: Always return messages as array.
 	return c.JSON(resp)
 }
 

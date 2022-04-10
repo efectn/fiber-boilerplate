@@ -94,7 +94,7 @@ func (con *ArticleController) Destroy(c *fiber.Ctx) error {
 	}
 
 	if err = con.articleService.DeleteArticle(id); err != nil {
-		return response.NewErrors(fiber.StatusInternalServerError, err.Error())
+		return err
 	}
 
 	return response.Resp(c, response.Response{
