@@ -57,7 +57,7 @@ func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router 
 				// ASCII Art
 				ascii, err := os.ReadFile("./storage/ascii_art.txt")
 				if err != nil {
-					log.Debug().Err(err).Msg("An unknown error occured when to print ASCII art!")
+					log.Debug().Err(err).Msg("An unknown error occurred when to print ASCII art!")
 				}
 
 				for _, line := range strings.Split(futils.UnsafeString(ascii), "\n") {
@@ -90,22 +90,20 @@ func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router 
 					log.Debug().Msg("TLS support was enabled.")
 
 					if err := fiber.ListenTLS(cfg.App.Port, cfg.App.TLS.CertFile, cfg.App.TLS.KeyFile); err != nil {
-						log.Error().Err(err).Msg("An unknown error occured when to run server!")
+						log.Error().Err(err).Msg("An unknown error occurred when to run server!")
 					}
 				}
 
 				go func() {
 					if err := fiber.Listen(cfg.App.Port); err != nil {
-						log.Error().Err(err).Msg("An unknown error occured when to run server!")
+						log.Error().Err(err).Msg("An unknown error occurred when to run server!")
 					}
 				}()
 
 				database.ConnectDatabase()
-				log.Info().Msg("Connected the database succesfully!")
 
 				database.MigrateModels()
 				database.SeedModels()
-				log.Info().Msg("Models were migrated and seeded successfully!")
 
 				return nil
 			},

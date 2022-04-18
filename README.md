@@ -85,11 +85,9 @@ CUSTOM="Air" docker-compose up # Use with Air
 - [Ent](https://github.com/ent/ent)
 - [Fx](https://github.com/uber-go/fx)
 - [Zerolog](https://github.com/rs/zerolog)
-<<<<<<< HEAD
-=======
 
 ## To-Do List
-- [ ] More error-free logging.
+- [x] More error-free logging.
 - [ ] Add makefile to make something shorter.
 - [ ] Introduce provider and repository patterns.
 - [ ] Add unit tests.
@@ -97,4 +95,3 @@ CUSTOM="Air" docker-compose up # Use with Air
 
 ## License
 fiber-boilerplate is licensed under the terms of the **MIT License** (see [LICENSE](LICENSE)).
->>>>>>> 7babf96 (Update README)
