@@ -1,9 +1,11 @@
 # Fiber Boilerplate
+[![Go Reference](https://pkg.go.dev/badge/github.com/efectn/fiber-boilerplate.svg)](https://pkg.go.dev/github.com/efectn/fiber-boilerplate)
+
 Simple and scalable boilerplate to build powerful and organized REST projects with [Fiber](https://github.com/gofiber/fiber). 
 
 Structure inspired by [project-layout](https://github.com/golang-standards/project-layout).
 
-## Directory Structure:
+## Directory Structure
 
 ```
 ├── build
@@ -60,14 +62,14 @@ Structure inspired by [project-layout](https://github.com/golang-standards/proje
         └── example.txt
 ```
 
-## Usage:
+## Usage
 You can run that commands to run project:
 
 ```go mod download```
 
 ```go run cmd/example/main.go``` or ```air -c .air.toml``` if you want to use air
 
-### Docker:
+### Docker
 ```shell
 docker-compose build
 docker-compose up
@@ -75,7 +77,7 @@ docker-compose up
 CUSTOM="Air" docker-compose up # Use with Air
 ```
 
-## Tech Stack:
+## Tech Stack
 - [Go](https://go.dev)
 - [PostgreSQL](https://www.postgresql.org)
 - [Docker](https://www.docker.com/)
@@ -83,3 +85,16 @@ CUSTOM="Air" docker-compose up # Use with Air
 - [Ent](https://github.com/ent/ent)
 - [Fx](https://github.com/uber-go/fx)
 - [Zerolog](https://github.com/rs/zerolog)
+<<<<<<< HEAD
+=======
+
+## To-Do List
+- [ ] More error-free logging.
+- [ ] Add makefile to make something shorter.
+- [ ] Introduce provider and repository patterns.
+- [ ] Add unit tests.
+- [ ] Add mocking with GoMock.
+
+## License
+fiber-boilerplate is licensed under the terms of the **MIT License** (see [LICENSE](LICENSE)).
+>>>>>>> 7babf96 (Update README)
