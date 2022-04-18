@@ -1,46 +1,37 @@
 package service
 
 import (
-	"context"
-
-	"github.com/efectn/fiber-boilerplate/pkg/database"
 	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
-	article "github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
+	"github.com/efectn/fiber-boilerplate/pkg/repository"
 	"github.com/efectn/fiber-boilerplate/pkg/request"
 )
 
 type ArticleService struct {
-	DB *database.Database
+	Repo *repository.ArticleRepository
 }
 
-func NewArticleService(database *database.Database) *ArticleService {
+func NewArticleService(repo *repository.ArticleRepository) *ArticleService {
 	return &ArticleService{
-		DB: database,
+		Repo: repo,
 	}
 }
 
 func (s *ArticleService) GetArticles() ([]*ent.Article, error) {
-	return s.DB.Ent.Article.Query().Order(ent.Asc(article.FieldID)).All(context.Background())
+	return s.Repo.GetArticles()
 }
 
 func (s *ArticleService) GetArticleByID(id int) (*ent.Article, error) {
-	return s.DB.Ent.Article.Query().Where(article.IDEQ(id)).First(context.Background())
+	return s.Repo.GetArticleByID(id)
 }
 
 func (s *ArticleService) CreateArticle(request request.ArticleRequest) (*ent.Article, error) {
-	return s.DB.Ent.Article.Create().
-		SetTitle(request.Title).
-		SetContent(request.Content).
-		Save(context.Background())
+	return s.Repo.CreateArticle(request)
 }
 
 func (s *ArticleService) UpdateArticle(id int, request request.ArticleRequest) (*ent.Article, error) {
-	return s.DB.Ent.Article.UpdateOneID(id).
-		SetTitle(request.Title).
-		SetContent(request.Content).
-		Save(context.Background())
+	return s.Repo.UpdateArticle(id, request)
 }
 
 func (s *ArticleService) DeleteArticle(id int) error {
-	return s.DB.Ent.Article.DeleteOneID(id).Exec(context.Background())
+	return s.Repo.DeleteArticle(id)
 }

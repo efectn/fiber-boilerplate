@@ -7,6 +7,7 @@ import (
 	"github.com/efectn/fiber-boilerplate/pkg/controller"
 	"github.com/efectn/fiber-boilerplate/pkg/database"
 	"github.com/efectn/fiber-boilerplate/pkg/middleware"
+	"github.com/efectn/fiber-boilerplate/pkg/repository"
 	"github.com/efectn/fiber-boilerplate/pkg/router"
 	"github.com/efectn/fiber-boilerplate/pkg/service"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
@@ -25,6 +26,7 @@ func main() {
 		fx.Provide(middleware.NewMiddleware),
 		fx.Provide(controller.NewController),
 		fx.Provide(router.NewRouter),
+		repository.NewRepository,
 		service.NewService,
 
 		// Start Application
