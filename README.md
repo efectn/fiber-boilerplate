@@ -88,7 +88,7 @@ CUSTOM="Air" docker-compose up # Use with Air
 
 ## To-Do List
 - [x] More error-free logging.
-- [ ] Add makefile to make something shorter.
+- [x] Add makefile to make something shorter.
 - [ ] Introduce provider and repository patterns.
 - [ ] Add unit tests.
 - [ ] Add mocking with GoMock.
