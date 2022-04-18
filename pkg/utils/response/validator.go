@@ -28,11 +28,11 @@ func init() {
 		log.Panic().Err(err).Msg("")
 	}
 }
-func ValidateStruct(input interface{}) error {
+func ValidateStruct(input any) error {
 	return validate.Struct(input)
 }
 
-func ParseBody(c *fiber.Ctx, body interface{}) error {
+func ParseBody(c *fiber.Ctx, body any) error {
 	if err := c.BodyParser(body); err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func ParseBody(c *fiber.Ctx, body interface{}) error {
 	return nil
 }
 
-func ParseAndValidate(c *fiber.Ctx, body interface{}) error {
+func ParseAndValidate(c *fiber.Ctx, body any) error {
 	v := reflect.ValueOf(body)
 
 	switch v.Kind() {

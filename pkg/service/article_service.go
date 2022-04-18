@@ -10,6 +10,14 @@ type ArticleService struct {
 	Repo *repository.ArticleRepository
 }
 
+type IArticleService interface {
+	GetArticles() ([]*ent.Article, error)
+	GetArticleByID(id int) (*ent.Article, error)
+	CreateArticle(request request.ArticleRequest) (*ent.Article, error)
+	UpdateArticle(id int, request request.ArticleRequest) (*ent.Article, error)
+	DeleteArticle(id int) error
+}
+
 func NewArticleService(repo *repository.ArticleRepository) *ArticleService {
 	return &ArticleService{
 		Repo: repo,

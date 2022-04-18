@@ -10,13 +10,13 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Alias for interface{} slice.
-type Messages = []interface{}
+// Alias for any slice.
+type Messages = []any
 
 // A struct to handle error with custom error handler.
 type Error struct {
-	Code    int         `json:"code"`
-	Message interface{} `json:"message"`
+	Code    int `json:"code"`
+	Message any `json:"message"`
 }
 
 // Error makes it compatible with the `error` interface.
@@ -26,9 +26,9 @@ func (e *Error) Error() string {
 
 // A struct to return normal responses.
 type Response struct {
-	Code     int         `json:"code"`
-	Messages Messages    `json:"messages,omitempty"`
-	Data     interface{} `json:"data,omitempty"`
+	Code     int      `json:"code"`
+	Messages Messages `json:"messages,omitempty"`
+	Data     any      `json:"data,omitempty"`
 }
 
 // Nothing to describe this fucking variable.
@@ -42,7 +42,7 @@ var ErrorHandler = func(c *fiber.Ctx, err error) error {
 	// Handle errors
 	if e, ok := err.(validator.ValidationErrors); ok {
 		resp.Code = fiber.StatusForbidden
-		resp.Messages = []interface{}{removeTopStruct(e.Translate(trans))}
+		resp.Messages = Messages{removeTopStruct(e.Translate(trans))}
 	} else if e, ok := err.(*fiber.Error); ok {
 		resp.Code = e.Code
 		resp.Messages = Messages{e.Message}
@@ -66,7 +66,7 @@ var ErrorHandler = func(c *fiber.Ctx, err error) error {
 }
 
 // NewErrors creates multiple new Error messages
-func NewErrors(code int, messages ...interface{}) *Error {
+func NewErrors(code int, messages ...any) *Error {
 	e := &Error{
 		Code:    code,
 		Message: utils.StatusMessage(code),
@@ -78,7 +78,7 @@ func NewErrors(code int, messages ...interface{}) *Error {
 }
 
 // NewError creates singular new Error message
-func NewError(code int, messages ...interface{}) *Error {
+func NewError(code int, messages ...any) *Error {
 	e := &Error{
 		Code:    code,
 		Message: utils.StatusMessage(code),

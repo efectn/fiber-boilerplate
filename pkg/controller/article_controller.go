@@ -13,6 +13,14 @@ type ArticleController struct {
 	articleService *service.ArticleService
 }
 
+type IArticleController interface {
+	Index(c *fiber.Ctx) error
+	Show(c *fiber.Ctx) error
+	Store(c *fiber.Ctx) error
+	Update(c *fiber.Ctx) error
+	Destroy(c *fiber.Ctx) error
+}
+
 func NewArticleController(articleService *service.ArticleService) *ArticleController {
 	return &ArticleController{
 		articleService: articleService,

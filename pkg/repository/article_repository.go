@@ -13,6 +13,14 @@ type ArticleRepository struct {
 	DB *database.Database
 }
 
+type IArticleRepository interface {
+	GetArticles() ([]*ent.Article, error)
+	GetArticleByID(id int) (*ent.Article, error)
+	CreateArticle(request request.ArticleRequest) (*ent.Article, error)
+	UpdateArticle(id int, request request.ArticleRequest) (*ent.Article, error)
+	DeleteArticle(id int) error
+}
+
 func NewArticleRepository(database *database.Database) *ArticleRepository {
 	return &ArticleRepository{
 		DB: database,

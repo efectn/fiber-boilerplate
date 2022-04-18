@@ -85,13 +85,14 @@ CUSTOM="Air" docker-compose up # Use with Air
 - [Ent](https://github.com/ent/ent)
 - [Fx](https://github.com/uber-go/fx)
 - [Zerolog](https://github.com/rs/zerolog)
+- [GoMock](https://github.com/golang/mock)
 
 ## To-Do List
 - [x] More error-free logging.
 - [x] Add makefile to make something shorter.
 - [x] Introduce repository pattern.
 - [ ] Add unit tests.
-- [ ] Add mocking with GoMock.
+- [x] Add mocking with GoMock.
 
 ## License
 fiber-boilerplate is licensed under the terms of the **MIT License** (see [LICENSE](LICENSE)).
