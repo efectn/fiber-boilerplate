@@ -3,12 +3,12 @@ package main
 import (
 	"go.uber.org/fx"
 
-	"github.com/efectn/fiber-boilerplate/pkg/controllers"
+	"github.com/efectn/fiber-boilerplate/pkg/bootstrap"
+	"github.com/efectn/fiber-boilerplate/pkg/controller"
 	"github.com/efectn/fiber-boilerplate/pkg/database"
-	"github.com/efectn/fiber-boilerplate/pkg/helpers"
-	"github.com/efectn/fiber-boilerplate/pkg/middlewares"
+	"github.com/efectn/fiber-boilerplate/pkg/middleware"
 	"github.com/efectn/fiber-boilerplate/pkg/router"
-	"github.com/efectn/fiber-boilerplate/pkg/services"
+	"github.com/efectn/fiber-boilerplate/pkg/service"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
 	fxzerolog "github.com/efectn/fx-zerolog"
 	"github.com/rs/zerolog/log"
@@ -17,16 +17,20 @@ import (
 
 func main() {
 	fx.New(
+		// Provide patterns
 		fx.Provide(config.NewConfig),
-		fx.Provide(helpers.NewLogger),
-		fx.Provide(helpers.NewFiber),
+		fx.Provide(bootstrap.NewLogger),
+		fx.Provide(bootstrap.NewFiber),
 		fx.Provide(database.NewDatabase),
-		services.NewService,
-		fx.Provide(middlewares.NewMiddleware),
-		fx.Provide(controllers.NewController),
+		fx.Provide(middleware.NewMiddleware),
+		fx.Provide(controller.NewController),
 		fx.Provide(router.NewRouter),
+		service.NewService,
 
-		fx.Invoke(helpers.Start),
+		// Start Application
+		fx.Invoke(bootstrap.Start),
+
+		// Define logger
 		fx.WithLogger(fxzerolog.Init(log.Logger)),
 	).Run()
 }

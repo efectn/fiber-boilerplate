@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"github.com/efectn/fiber-boilerplate/pkg/database"
 	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
 	article "github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
-	"github.com/efectn/fiber-boilerplate/pkg/requests"
+	"github.com/efectn/fiber-boilerplate/pkg/request"
 )
 
 type ArticleService struct {
@@ -27,14 +27,14 @@ func (s *ArticleService) GetArticleByID(id int) (*ent.Article, error) {
 	return s.DB.Ent.Article.Query().Where(article.IDEQ(id)).First(context.Background())
 }
 
-func (s *ArticleService) CreateArticle(request requests.ArticleRequest) (*ent.Article, error) {
+func (s *ArticleService) CreateArticle(request request.ArticleRequest) (*ent.Article, error) {
 	return s.DB.Ent.Article.Create().
 		SetTitle(request.Title).
 		SetContent(request.Content).
 		Save(context.Background())
 }
 
-func (s *ArticleService) UpdateArticle(id int, request requests.ArticleRequest) (*ent.Article, error) {
+func (s *ArticleService) UpdateArticle(id int, request request.ArticleRequest) (*ent.Article, error) {
 	return s.DB.Ent.Article.UpdateOneID(id).
 		SetTitle(request.Title).
 		SetContent(request.Content).

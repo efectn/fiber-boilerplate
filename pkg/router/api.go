@@ -1,17 +1,17 @@
 package router
 
 import (
-	"github.com/efectn/fiber-boilerplate/pkg/controllers"
+	"github.com/efectn/fiber-boilerplate/pkg/controller"
 	"github.com/efectn/fiber-boilerplate/storage"
 	"github.com/gofiber/fiber/v2"
 )
 
 type Router struct {
 	App        fiber.Router
-	Controller *controllers.Controller
+	Controller *controller.Controller
 }
 
-func NewRouter(fiber *fiber.App, controller *controllers.Controller) *Router {
+func NewRouter(fiber *fiber.App, controller *controller.Controller) *Router {
 	return &Router{
 		App:        fiber,
 		Controller: controller,

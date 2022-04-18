@@ -1,19 +1,19 @@
-package controllers
+package controller
 
 import (
 	"strconv"
 
-	"github.com/efectn/fiber-boilerplate/pkg/requests"
-	"github.com/efectn/fiber-boilerplate/pkg/services"
+	"github.com/efectn/fiber-boilerplate/pkg/request"
+	"github.com/efectn/fiber-boilerplate/pkg/service"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/response"
 	"github.com/gofiber/fiber/v2"
 )
 
 type ArticleController struct {
-	articleService *services.ArticleService
+	articleService *service.ArticleService
 }
 
-func NewArticleController(articleService *services.ArticleService) *ArticleController {
+func NewArticleController(articleService *service.ArticleService) *ArticleController {
 	return &ArticleController{
 		articleService: articleService,
 	}
@@ -49,7 +49,7 @@ func (con *ArticleController) Show(c *fiber.Ctx) error {
 }
 
 func (con *ArticleController) Store(c *fiber.Ctx) error {
-	req := new(requests.ArticleRequest)
+	req := new(request.ArticleRequest)
 	if err := response.ParseAndValidate(c, req); err != nil {
 		return err
 	}
@@ -71,7 +71,7 @@ func (con *ArticleController) Update(c *fiber.Ctx) error {
 		return err
 	}
 
-	req := new(requests.ArticleRequest)
+	req := new(request.ArticleRequest)
 	if err := response.ParseAndValidate(c, req); err != nil {
 		return err
 	}

@@ -1,4 +1,4 @@
-package helpers
+package bootstrap
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/efectn/fiber-boilerplate/pkg/database"
-	"github.com/efectn/fiber-boilerplate/pkg/middlewares"
+	"github.com/efectn/fiber-boilerplate/pkg/middleware"
 	"github.com/efectn/fiber-boilerplate/pkg/router"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/response"
@@ -36,7 +36,7 @@ func NewFiber(cfg *config.Config) *fiber.App {
 	return app
 }
 
-func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middlewares.Middleware, database *database.Database, log zerolog.Logger) {
+func Start(lifecycle fx.Lifecycle, cfg *config.Config, fiber *fiber.App, router *router.Router, middlewares *middleware.Middleware, database *database.Database, log zerolog.Logger) {
 	lifecycle.Append(
 		fx.Hook{
 			OnStart: func(ctx context.Context) error {
