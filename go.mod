@@ -10,7 +10,7 @@ require (
 	github.com/go-playground/validator/v10 v10.10.1
 	github.com/gofiber/fiber/v2 v2.32.0
 	github.com/golang/mock v1.6.0
-	github.com/jackc/pgx/v4 v4.15.0
+	github.com/jackc/pgx/v4 v4.16.0
 	github.com/pelletier/go-toml/v2 v2.0.0-beta.8
 	github.com/rs/zerolog v1.26.1
 	go.uber.org/automaxprocs v1.5.1
@@ -27,12 +27,12 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/hashicorp/hcl/v2 v2.11.1 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
-	github.com/jackc/pgconn v1.11.0 // indirect
+	github.com/jackc/pgconn v1.12.0 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
-	github.com/jackc/pgproto3/v2 v2.2.0 // indirect
+	github.com/jackc/pgproto3/v2 v2.3.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
-	github.com/jackc/pgtype v1.10.0 // indirect
+	github.com/jackc/pgtype v1.11.0 // indirect
 	github.com/klauspost/compress v1.15.1 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
