@@ -11,7 +11,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.32.0
 	github.com/golang/mock v1.6.0
 	github.com/jackc/pgx/v4 v4.16.0
-	github.com/pelletier/go-toml/v2 v2.0.0-beta.8
+	github.com/pelletier/go-toml/v2 v2.0.0
 	github.com/rs/zerolog v1.26.1
 	go.uber.org/automaxprocs v1.5.1
 	go.uber.org/fx v1.17.1
