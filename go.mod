@@ -7,7 +7,7 @@ require (
 	github.com/efectn/fx-zerolog v1.0.0
 	github.com/go-playground/locales v0.14.0
 	github.com/go-playground/universal-translator v0.18.0
-	github.com/go-playground/validator/v10 v10.10.1
+	github.com/go-playground/validator/v10 v10.11.0
 	github.com/gofiber/fiber/v2 v2.32.0
 	github.com/golang/mock v1.6.0
 	github.com/jackc/pgx/v4 v4.16.0
