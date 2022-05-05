@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"os"
 
-	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
+	"github.com/efectn/fiber-boilerplate/utils/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

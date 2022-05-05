@@ -3,8 +3,6 @@
 
 Simple and scalable boilerplate to build powerful and organized REST projects with [Fiber](https://github.com/gofiber/fiber). 
 
-Structure inspired by [project-layout](https://github.com/golang-standards/project-layout).
-
 ## Directory Structure
 
 ```
@@ -17,49 +15,69 @@ Structure inspired by [project-layout](https://github.com/golang-standards/proje
 │       └── main.go
 ├── config
 │   └── example.toml
+├── database
+│   ├── schema
+│   │   └── article.go
+│   └── seeder
+│       └── article_seeder.go
 ├── docker-compose.yaml
 ├── go.mod
 ├── go.sum
+├── internal
+│   └── bootstrap
+│       ├── database
+│       │   └── database.go
+│       ├── logger.go
+│       └── webserver.go
 ├── LICENSE
+├── Makefile
+├── middleware
+│   ├── register.go
+│   └── token
+│       └── token.go
+├── module
+│   └── article
+│       ├── article_module.go
+│       ├── controller
+│       │   ├── article_controller.go
+│       │   ├── article_controller_mock.go
+│       │   └── controller.go
+│       ├── repository
+│       │   ├── article_repository.go
+│       │   └── article_repository_mock.go
+│       ├── request
+│       │   └── article_request.go
+│       └── service
+│           ├── article_service.go
+│           └── article_service_mock.go
 ├── pkg
-│   ├── controllers
-│   │   ├── article_controller.go
-│   │   └── contorller.go
-│   ├── database
-│   │   ├── database.go
-│   │   ├── schemas
-│   │   │   └── article.go
-│   │   └── seeds
-│   │       └── article_seeder.go
-│   ├── helpers
-│   │   ├── logger.go
-│   │   └── webserver.go
-│   ├── middlewares
-│   │   ├── register.go
-│   │   └── token
-│   │       └── token.go
-│   ├── requests
-│   │   └── article_request.go
-│   ├── router
-│   │   └── api.go
-│   ├── services
-│   │   ├── article_service.go
-│   │   └── services.go
-│   └── utils
-│       ├── config
-│       │   └── config.go
-│       ├── response
-│       │   ├── response.go
-│       │   └── validator.go
-│       └── utils.go
+│   └── module
+│       └── article
+│           ├── controller
+│           │   └── article_controller.go
+│           ├── repository
+│           │   ├── article_repository.go
+│           │   └── article_repository_mock.go
+│           └── service
+│               ├── article_service.go
+│               └── article_service_mock.go
 ├── README.md
-└── storage
-    ├── ascii_art.txt
-    ├── private
-    │   └── example.html
-    ├── private.go
-    └── public
-        └── example.txt
+├── router
+│   └── api.go
+├── storage
+│   ├── ascii_art.txt
+│   ├── private
+│   │   └── example.html
+│   ├── private.go
+│   └── public
+│       └── example.txt
+└── utils
+    ├── config
+    │   └── config.go
+    ├── response
+    │   ├── response.go
+    │   └── validator.go
+    └── utils.go
 ```
 
 ## Usage

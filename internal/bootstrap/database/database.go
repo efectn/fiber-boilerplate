@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/efectn/fiber-boilerplate/internal/ent"
-	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
+	"github.com/efectn/fiber-boilerplate/utils/config"
 	"github.com/rs/zerolog"
 
 	"database/sql"

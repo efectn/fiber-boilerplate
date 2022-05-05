@@ -1,9 +1,9 @@
 package article
 
 import (
-	"github.com/efectn/fiber-boilerplate/pkg/module/article/controller"
-	"github.com/efectn/fiber-boilerplate/pkg/module/article/repository"
-	"github.com/efectn/fiber-boilerplate/pkg/module/article/service"
+	"github.com/efectn/fiber-boilerplate/module/article/controller"
+	"github.com/efectn/fiber-boilerplate/module/article/repository"
+	"github.com/efectn/fiber-boilerplate/module/article/service"
 	"github.com/gofiber/fiber/v2"
 	"go.uber.org/fx"
 )

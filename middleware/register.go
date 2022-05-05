@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/efectn/fiber-boilerplate/pkg/utils"
-	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
+	"github.com/efectn/fiber-boilerplate/utils"
+	"github.com/efectn/fiber-boilerplate/utils/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/filesystem"
