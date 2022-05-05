@@ -1,6 +1,6 @@
 package controller
 
-import "github.com/efectn/fiber-boilerplate/pkg/service"
+import "github.com/efectn/fiber-boilerplate/pkg/module/article/service"
 
 type Controller struct {
 	Article *ArticleController

@@ -1,28 +1,25 @@
 package router
 
 import (
-	"github.com/efectn/fiber-boilerplate/pkg/controller"
+	"github.com/efectn/fiber-boilerplate/pkg/module/article"
 	"github.com/efectn/fiber-boilerplate/storage"
 	"github.com/gofiber/fiber/v2"
 )
 
 type Router struct {
-	App        fiber.Router
-	Controller *controller.Controller
+	App           fiber.Router
+	ArticleRouter *article.ArticleRouter
 }
 
-func NewRouter(fiber *fiber.App, controller *controller.Controller) *Router {
+func NewRouter(fiber *fiber.App, articleRouter *article.ArticleRouter) *Router {
 	return &Router{
-		App:        fiber,
-		Controller: controller,
+		App:           fiber,
+		ArticleRouter: articleRouter,
 	}
 }
 
 // Register routes
 func (r *Router) Register() {
-	// Define controllers
-	articleController := r.Controller.Article
-
 	// Test Routes
 	r.App.Get("/ping", func(c *fiber.Ctx) error {
 		return c.SendString("Pong! 👋")
@@ -38,12 +35,6 @@ func (r *Router) Register() {
 		return c.SendString(string(example))
 	})
 
-	// Define routes
-	r.App.Route("/articles", func(router fiber.Router) {
-		router.Get("/", articleController.Index)
-		router.Get("/:id", articleController.Show)
-		router.Post("/", articleController.Store)
-		router.Patch("/:id", articleController.Update)
-		router.Delete("/:id", articleController.Destroy)
-	})
+	// Register routes of modules
+	r.ArticleRouter.RegisterArticleRoutes()
 }

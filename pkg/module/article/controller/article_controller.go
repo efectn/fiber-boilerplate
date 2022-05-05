@@ -3,8 +3,8 @@ package controller
 import (
 	"strconv"
 
+	"github.com/efectn/fiber-boilerplate/pkg/module/article/service"
 	"github.com/efectn/fiber-boilerplate/pkg/request"
-	"github.com/efectn/fiber-boilerplate/pkg/service"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/response"
 	"github.com/gofiber/fiber/v2"
 )

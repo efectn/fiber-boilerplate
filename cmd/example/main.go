@@ -5,11 +5,9 @@ import (
 
 	"github.com/efectn/fiber-boilerplate/internal/bootstrap"
 	"github.com/efectn/fiber-boilerplate/internal/bootstrap/database"
-	"github.com/efectn/fiber-boilerplate/pkg/controller"
 	"github.com/efectn/fiber-boilerplate/pkg/middleware"
-	"github.com/efectn/fiber-boilerplate/pkg/repository"
+	"github.com/efectn/fiber-boilerplate/pkg/module/article"
 	"github.com/efectn/fiber-boilerplate/pkg/router"
-	"github.com/efectn/fiber-boilerplate/pkg/service"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
 	fxzerolog "github.com/efectn/fx-zerolog"
 	"github.com/rs/zerolog/log"
@@ -24,10 +22,10 @@ func main() {
 		fx.Provide(bootstrap.NewFiber),
 		fx.Provide(database.NewDatabase),
 		fx.Provide(middleware.NewMiddleware),
-		fx.Provide(controller.NewController),
 		fx.Provide(router.NewRouter),
-		repository.NewRepository,
-		service.NewService,
+
+		// Provide modules
+		article.NewArticleModule,
 
 		// Start Application
 		fx.Invoke(bootstrap.Start),
