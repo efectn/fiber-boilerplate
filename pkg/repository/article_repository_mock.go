@@ -7,7 +7,7 @@ package repository
 import (
 	reflect "reflect"
 
-	ent "github.com/efectn/fiber-boilerplate/pkg/database/ent"
+	ent "github.com/efectn/fiber-boilerplate/internal/ent"
 	request "github.com/efectn/fiber-boilerplate/pkg/request"
 	gomock "github.com/golang/mock/gomock"
 )

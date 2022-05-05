@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
+	"github.com/efectn/fiber-boilerplate/internal/ent"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"
 	"github.com/rs/zerolog"
 

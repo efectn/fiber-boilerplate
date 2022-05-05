@@ -5,9 +5,9 @@ package enttest
 import (
 	"context"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
+	"github.com/efectn/fiber-boilerplate/internal/ent"
 	// required by schema hooks.
-	_ "github.com/efectn/fiber-boilerplate/pkg/database/ent/runtime"
+	_ "github.com/efectn/fiber-boilerplate/internal/ent/runtime"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

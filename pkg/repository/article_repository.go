@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database"
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
-	article "github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
+	"github.com/efectn/fiber-boilerplate/internal/bootstrap/database"
+	"github.com/efectn/fiber-boilerplate/internal/ent"
+	article "github.com/efectn/fiber-boilerplate/internal/ent/article"
 	"github.com/efectn/fiber-boilerplate/pkg/request"
 )
 

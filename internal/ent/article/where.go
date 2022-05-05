@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/predicate"
+	"github.com/efectn/fiber-boilerplate/internal/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.

@@ -11,8 +11,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/predicate"
+	"github.com/efectn/fiber-boilerplate/internal/ent/article"
+	"github.com/efectn/fiber-boilerplate/internal/ent/predicate"
 )
 
 // ArticleQuery is the builder for querying Article entities.

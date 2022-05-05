@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database"
+	"github.com/efectn/fiber-boilerplate/internal/bootstrap/database"
 	"github.com/efectn/fiber-boilerplate/pkg/middleware"
 	"github.com/efectn/fiber-boilerplate/pkg/router"
 	"github.com/efectn/fiber-boilerplate/pkg/utils/config"

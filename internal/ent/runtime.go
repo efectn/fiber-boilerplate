@@ -5,15 +5,15 @@ package ent
 import (
 	"time"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
-	"github.com/efectn/fiber-boilerplate/pkg/database/schemas"
+	"github.com/efectn/fiber-boilerplate/internal/ent/article"
+	"github.com/efectn/fiber-boilerplate/pkg/database/schema"
 )
 
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
-	articleFields := schemas.Article{}.Fields()
+	articleFields := schema.Article{}.Fields()
 	_ = articleFields
 	// articleDescCreatedAt is the schema descriptor for created_at field.
 	articleDescCreatedAt := articleFields[2].Descriptor()

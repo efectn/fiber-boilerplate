@@ -3,9 +3,9 @@ package main
 import (
 	"go.uber.org/fx"
 
-	"github.com/efectn/fiber-boilerplate/pkg/bootstrap"
+	"github.com/efectn/fiber-boilerplate/internal/bootstrap"
+	"github.com/efectn/fiber-boilerplate/internal/bootstrap/database"
 	"github.com/efectn/fiber-boilerplate/pkg/controller"
-	"github.com/efectn/fiber-boilerplate/pkg/database"
 	"github.com/efectn/fiber-boilerplate/pkg/middleware"
 	"github.com/efectn/fiber-boilerplate/pkg/repository"
 	"github.com/efectn/fiber-boilerplate/pkg/router"

@@ -6,7 +6,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
+	"github.com/efectn/fiber-boilerplate/internal/ent"
 )
 
 // The ArticleFunc type is an adapter to allow the use of ordinary

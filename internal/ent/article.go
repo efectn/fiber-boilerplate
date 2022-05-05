@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
+	"github.com/efectn/fiber-boilerplate/internal/ent/article"
 )
 
 // Article is the model entity for the Article schema.

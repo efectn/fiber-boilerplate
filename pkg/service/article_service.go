@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent"
+	"github.com/efectn/fiber-boilerplate/internal/ent"
 	"github.com/efectn/fiber-boilerplate/pkg/repository"
 	"github.com/efectn/fiber-boilerplate/pkg/request"
 )

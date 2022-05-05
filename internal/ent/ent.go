@@ -8,7 +8,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
+	"github.com/efectn/fiber-boilerplate/internal/ent/article"
 )
 
 // ent aliases to avoid import conflicts in user's code.

@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/predicate"
+	"github.com/efectn/fiber-boilerplate/internal/ent/article"
+	"github.com/efectn/fiber-boilerplate/internal/ent/predicate"
 
 	"entgo.io/ent"
 )

@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/migrate"
+	"github.com/efectn/fiber-boilerplate/internal/ent/migrate"
 
-	"github.com/efectn/fiber-boilerplate/pkg/database/ent/article"
+	"github.com/efectn/fiber-boilerplate/internal/ent/article"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"

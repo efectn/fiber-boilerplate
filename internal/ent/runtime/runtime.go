@@ -2,7 +2,7 @@
 
 package runtime
 
-// The schema-stitching logic is generated in github.com/efectn/fiber-boilerplate/pkg/database/ent/runtime.go
+// The schema-stitching logic is generated in github.com/efectn/fiber-boilerplate/internal/ent/runtime.go
 
 const (
 	Version = "v0.10.1"                                         // Version of ent codegen.
