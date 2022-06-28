@@ -5,8 +5,8 @@ package ent
 import (
 	"time"
 
-	"github.com/efectn/fiber-boilerplate/internal/ent/article"
 	"github.com/efectn/fiber-boilerplate/app/database/schema"
+	"github.com/efectn/fiber-boilerplate/internal/ent/article"
 )
 
 // The init function reads all schema descriptors with runtime code
