@@ -1,9 +1,9 @@
 package service
 
 import (
+	"github.com/efectn/fiber-boilerplate/app/module/article/repository"
+	"github.com/efectn/fiber-boilerplate/app/module/article/request"
 	"github.com/efectn/fiber-boilerplate/internal/ent"
-	"github.com/efectn/fiber-boilerplate/module/article/repository"
-	"github.com/efectn/fiber-boilerplate/module/article/request"
 )
 
 type ArticleService struct {

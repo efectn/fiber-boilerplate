@@ -3,10 +3,10 @@ package repository
 import (
 	"context"
 
+	"github.com/efectn/fiber-boilerplate/app/module/article/request"
 	"github.com/efectn/fiber-boilerplate/internal/bootstrap/database"
 	"github.com/efectn/fiber-boilerplate/internal/ent"
 	article "github.com/efectn/fiber-boilerplate/internal/ent/article"
-	"github.com/efectn/fiber-boilerplate/module/article/request"
 )
 
 type ArticleRepository struct {

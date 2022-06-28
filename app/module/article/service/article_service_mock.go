@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	ent "github.com/efectn/fiber-boilerplate/internal/ent"
-	request "github.com/efectn/fiber-boilerplate/module/article/request"
+	request "github.com/efectn/fiber-boilerplate/app/module/article/request"
 	gomock "github.com/golang/mock/gomock"
 )
 

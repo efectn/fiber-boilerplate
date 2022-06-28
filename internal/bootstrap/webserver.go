@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/efectn/fiber-boilerplate/internal/bootstrap/database"
-	"github.com/efectn/fiber-boilerplate/middleware"
-	"github.com/efectn/fiber-boilerplate/router"
+	"github.com/efectn/fiber-boilerplate/app/middleware"
+	"github.com/efectn/fiber-boilerplate/app/router"
 	"github.com/efectn/fiber-boilerplate/utils/config"
 	"github.com/efectn/fiber-boilerplate/utils/response"
 	"github.com/gofiber/fiber/v2"

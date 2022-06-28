@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/efectn/fiber-boilerplate/module/article"
+	"github.com/efectn/fiber-boilerplate/app/module/article"
 	"github.com/efectn/fiber-boilerplate/storage"
 	"github.com/gofiber/fiber/v2"
 )

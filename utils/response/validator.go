@@ -28,6 +28,7 @@ func init() {
 		log.Panic().Err(err).Msg("")
 	}
 }
+
 func ValidateStruct(input any) error {
 	return validate.Struct(input)
 }

@@ -3,11 +3,11 @@ package main
 import (
 	"go.uber.org/fx"
 
+	"github.com/efectn/fiber-boilerplate/app/middleware"
+	"github.com/efectn/fiber-boilerplate/app/module/article"
+	"github.com/efectn/fiber-boilerplate/app/router"
 	"github.com/efectn/fiber-boilerplate/internal/bootstrap"
 	"github.com/efectn/fiber-boilerplate/internal/bootstrap/database"
-	"github.com/efectn/fiber-boilerplate/middleware"
-	"github.com/efectn/fiber-boilerplate/module/article"
-	"github.com/efectn/fiber-boilerplate/router"
 	"github.com/efectn/fiber-boilerplate/utils/config"
 	fxzerolog "github.com/efectn/fx-zerolog"
 	"github.com/rs/zerolog/log"
