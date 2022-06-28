@@ -6,6 +6,33 @@ Simple and scalable boilerplate to build powerful and organized REST projects wi
 ## Directory Structure
 
 ```
+├── app
+│   ├── database
+│   │   ├── schema
+│   │   │   └── article.go
+│   │   └── seeder
+│   │       └── article_seeder.go
+│   ├── middleware
+│   │   ├── register.go
+│   │   └── token
+│   │       └── token.go
+│   ├── module
+│   │   └── article
+│   │       ├── article_module.go
+│   │       ├── controller
+│   │       │   ├── article_controller.go
+│   │       │   ├── article_controller_mock.go
+│   │       │   └── controller.go
+│   │       ├── repository
+│   │       │   ├── article_repository.go
+│   │       │   └── article_repository_mock.go
+│   │       ├── request
+│   │       │   └── article_request.go
+│   │       └── service
+│   │           ├── article_service.go
+│   │           └── article_service_mock.go
+│   └── router
+│       └── api.go
 ├── build
 │   ├── Dockerfile
 │   └── DockerfileAir
@@ -15,11 +42,6 @@ Simple and scalable boilerplate to build powerful and organized REST projects wi
 │       └── main.go
 ├── config
 │   └── example.toml
-├── database
-│   ├── schema
-│   │   └── article.go
-│   └── seeder
-│       └── article_seeder.go
 ├── docker-compose.yaml
 ├── go.mod
 ├── go.sum
@@ -31,39 +53,7 @@ Simple and scalable boilerplate to build powerful and organized REST projects wi
 │       └── webserver.go
 ├── LICENSE
 ├── Makefile
-├── middleware
-│   ├── register.go
-│   └── token
-│       └── token.go
-├── module
-│   └── article
-│       ├── article_module.go
-│       ├── controller
-│       │   ├── article_controller.go
-│       │   ├── article_controller_mock.go
-│       │   └── controller.go
-│       ├── repository
-│       │   ├── article_repository.go
-│       │   └── article_repository_mock.go
-│       ├── request
-│       │   └── article_request.go
-│       └── service
-│           ├── article_service.go
-│           └── article_service_mock.go
-├── pkg
-│   └── module
-│       └── article
-│           ├── controller
-│           │   └── article_controller.go
-│           ├── repository
-│           │   ├── article_repository.go
-│           │   └── article_repository_mock.go
-│           └── service
-│               ├── article_service.go
-│               └── article_service_mock.go
 ├── README.md
-├── router
-│   └── api.go
 ├── storage
 │   ├── ascii_art.txt
 │   ├── private
