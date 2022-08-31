@@ -8,7 +8,7 @@ require (
 	github.com/go-playground/locales v0.14.0
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.11.0
-	github.com/gofiber/fiber/v2 v2.35.0
+	github.com/gofiber/fiber/v2 v2.37.0
 	github.com/golang/mock v1.6.0
 	github.com/jackc/pgx/v4 v4.16.1
 	github.com/pelletier/go-toml/v2 v2.0.2
@@ -39,7 +39,7 @@ require (
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasthttp v1.38.0 // indirect
+	github.com/valyala/fasthttp v1.39.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/zclconf/go-cty v1.10.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
